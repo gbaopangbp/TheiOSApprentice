@@ -12,6 +12,11 @@
 		83533D861C27ED7700C5BF3F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83533D841C27ED7700C5BF3F /* Main.storyboard */; };
 		83533D881C27ED7700C5BF3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83533D871C27ED7700C5BF3F /* Assets.xcassets */; };
 		83533D8B1C27ED7700C5BF3F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83533D891C27ED7700C5BF3F /* LaunchScreen.storyboard */; };
+		83533D931C293ACC00C5BF3F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83533D921C293ACC00C5BF3F /* AboutViewController.swift */; };
+		83533D951C29521300C5BF3F /* BullsEye.html in Resources */ = {isa = PBXBuildFile; fileRef = 83533D941C29521300C5BF3F /* BullsEye.html */; };
+		83533D981C29575200C5BF3F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83533D961C29575200C5BF3F /* Default-568h@2x.png */; };
+		83533D991C29575200C5BF3F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83533D971C29575200C5BF3F /* Default@2x.png */; };
+		83533D9B1C29584A00C5BF3F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83533D9A1C29584A00C5BF3F /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,11 @@
 		83533D871C27ED7700C5BF3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		83533D8A1C27ED7700C5BF3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83533D8C1C27ED7700C5BF3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83533D921C293ACC00C5BF3F /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		83533D941C29521300C5BF3F /* BullsEye.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = BullsEye.html; sourceTree = "<group>"; };
+		83533D961C29575200C5BF3F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		83533D971C29575200C5BF3F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		83533D9A1C29584A00C5BF3F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83533D9B1C29584A00C5BF3F /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +49,7 @@
 		83533D741C27ED7700C5BF3F = {
 			isa = PBXGroup;
 			children = (
+				83533D9A1C29584A00C5BF3F /* QuartzCore.framework */,
 				83533D7F1C27ED7700C5BF3F /* BullsEye */,
 				83533D7E1C27ED7700C5BF3F /* Products */,
 			);
@@ -56,10 +68,14 @@
 			children = (
 				83533D801C27ED7700C5BF3F /* AppDelegate.swift */,
 				83533D821C27ED7700C5BF3F /* ViewController.swift */,
+				83533D941C29521300C5BF3F /* BullsEye.html */,
 				83533D841C27ED7700C5BF3F /* Main.storyboard */,
 				83533D871C27ED7700C5BF3F /* Assets.xcassets */,
 				83533D891C27ED7700C5BF3F /* LaunchScreen.storyboard */,
 				83533D8C1C27ED7700C5BF3F /* Info.plist */,
+				83533D921C293ACC00C5BF3F /* AboutViewController.swift */,
+				83533D961C29575200C5BF3F /* Default-568h@2x.png */,
+				83533D971C29575200C5BF3F /* Default@2x.png */,
 			);
 			path = BullsEye;
 			sourceTree = "<group>";
@@ -122,8 +138,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83533D991C29575200C5BF3F /* Default@2x.png in Resources */,
 				83533D8B1C27ED7700C5BF3F /* LaunchScreen.storyboard in Resources */,
+				83533D951C29521300C5BF3F /* BullsEye.html in Resources */,
 				83533D881C27ED7700C5BF3F /* Assets.xcassets in Resources */,
+				83533D981C29575200C5BF3F /* Default-568h@2x.png in Resources */,
 				83533D861C27ED7700C5BF3F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,6 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83533D931C293ACC00C5BF3F /* AboutViewController.swift in Sources */,
 				83533D831C27ED7700C5BF3F /* ViewController.swift in Sources */,
 				83533D811C27ED7700C5BF3F /* AppDelegate.swift in Sources */,
 			);
@@ -247,6 +267,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = BullsEye/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -259,6 +280,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = BullsEye/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -286,6 +308,7 @@
 				83533D911C27ED7700C5BF3F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
