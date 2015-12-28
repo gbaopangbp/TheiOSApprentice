@@ -12,6 +12,7 @@ import UIKit
 protocol AddItemProtocol:class{
     func addItemViewControllerDidCancel(controller:AddItemViewController)
     func addItemViewController(controller:AddItemViewController, didFinishAddindItem item:CheckListItem)
+    func addItemViewController(controller:AddItemViewController, didFinishEditingItem item:CheckListItem)
 }
 
 class AddItemViewController: UITableViewController,UITextFieldDelegate {
@@ -20,10 +21,19 @@ class AddItemViewController: UITableViewController,UITextFieldDelegate {
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
     weak var delegate:AddItemProtocol?
+    weak var itemToEdit:CheckListItem?
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         textField.becomeFirstResponder()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if let editItem = itemToEdit {
+            title = "EditItem"
+            textField.text = editItem.text
+        }
     }
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
@@ -36,10 +46,18 @@ class AddItemViewController: UITableViewController,UITextFieldDelegate {
     }
     
     @IBAction func done(){
-        let item = CheckListItem()
-        item.text = textField.text!
-        item.checked = false
-        delegate?.addItemViewController(self, didFinishAddindItem: item)
+        if let item = itemToEdit {
+            item.text = textField.text!
+            delegate?.addItemViewController(self, didFinishEditingItem: item)
+        }else{
+            let item = CheckListItem()
+            item.text = textField.text!
+            item.checked = false
+            delegate?.addItemViewController(self, didFinishAddindItem: item)
+        }
+        
+        
+
 //        dismissViewControllerAnimated(true, completion: nil)
     }
     

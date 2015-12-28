@@ -61,6 +61,14 @@ class CheckListController: UITableViewController,AddItemProtocol {
             let naviController = segue.destinationViewController as! UINavigationController
             let addController = naviController.topViewController as! AddItemViewController
             addController.delegate = self
+        }else if segue.identifier == "EditItem" {
+            let naviController = segue.destinationViewController as! UINavigationController
+            let addController = naviController.topViewController as! AddItemViewController
+            addController.delegate = self
+            
+            if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
+                addController.itemToEdit = items[indexPath.row]
+            }
         }
     }
 
@@ -98,16 +106,28 @@ class CheckListController: UITableViewController,AddItemProtocol {
     }
     
     func configCheckmarkForCell(cell:UITableViewCell, checkListItem item:CheckListItem)->Void{
+        let checkLabel = cell.viewWithTag(1001) as! UILabel
         if item.checked{
-            cell.accessoryType = .Checkmark
+            checkLabel.text = "√"
         }else{
-            cell.accessoryType = .None
+            checkLabel.text = ""
         }
     }
     
     func configLabelForCell(cell:UITableViewCell, checkListItem item:CheckListItem)->Void{
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = item.text
+    }
+    
+    func addItemViewController(controller:AddItemViewController, didFinishEditingItem item:CheckListItem){
+        if let index = items.indexOf(item) {
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+                configLabelForCell(cell, checkListItem: item)
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            }
+        }
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func addItemViewController(controller: AddItemViewController, didFinishAddindItem item: CheckListItem) {
@@ -122,6 +142,8 @@ class CheckListController: UITableViewController,AddItemProtocol {
     func addItemViewControllerDidCancel(controller: AddItemViewController) {
         dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    
 
 }
 
