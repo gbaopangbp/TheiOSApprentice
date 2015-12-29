@@ -11,11 +11,16 @@ import UIKit
 class AllListViewController: UITableViewController,ListDetailControllerProtocol,UINavigationControllerDelegate {
     var dataModel:DataModel!
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.delegate = self
-        let index = NSUserDefaults.standardUserDefaults().integerForKey("CheckListIndex")
-        if index != -1 {
+        let index = dataModel.indexOfCheckList
+        if index >= 0 && index < dataModel.lists.count {
             performSegueWithIdentifier("ShowCheckList", sender: dataModel.lists[index])
         }
     }
@@ -27,19 +32,28 @@ class AllListViewController: UITableViewController,ListDetailControllerProtocol,
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell:UITableViewCell! = tableView.dequeueReusableCellWithIdentifier("CheckListCell")
         if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: "CheckListCell")
+            cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "CheckListCell")
         }
         let list = dataModel.lists[indexPath.row] as CheckList
         cell.textLabel?.text = list.name
         cell.accessoryType = .DetailDisclosureButton
+        let count = list.countOfUncheckedItems()
+        if list.items.count == 0{
+            cell.detailTextLabel?.text = "No Item"
+        }else if count > 0{
+            cell.detailTextLabel?.text = "\(count) Reminding"
+        }else{
+            cell.detailTextLabel?.text = "All Done"
+        }
+        
+        cell.imageView?.image = UIImage(named: list.iconName)
         
         return cell
         
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        NSUserDefaults.standardUserDefaults().setInteger(indexPath.row, forKey: "CheckListIndex")
-
+        dataModel.indexOfCheckList = indexPath.row
         performSegueWithIdentifier("ShowCheckList", sender: dataModel.lists[indexPath.row])
     }
     
@@ -78,25 +92,22 @@ class AllListViewController: UITableViewController,ListDetailControllerProtocol,
     }
     
     func listDetailController(controller: ListDetailControllrer, didFinishEditingList list: CheckList) {
-        let index = dataModel.lists.indexOf(list)
-        let indexPath = NSIndexPath(forRow: index!, inSection: 0)
-        let indexPaths = [indexPath]
-        tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        dataModel.sortCheckLists()
+        tableView.reloadData()
         dismissViewControllerAnimated(true, completion: nil)
     }
 
     
     func listDetailController(controller: ListDetailControllrer, didFinishAddingList list: CheckList) {
         dataModel.lists.append(list)
-        let indexPath = NSIndexPath(forRow: dataModel.lists.count - 1, inSection: 0)
-        let indexPaths = [indexPath]
-        tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        dataModel.sortCheckLists()
+        tableView.reloadData()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
         if self == viewController {
-            NSUserDefaults.standardUserDefaults().setInteger(-1, forKey: "CheckListIndex")
+            dataModel.indexOfCheckList = -1
         }
     }
 

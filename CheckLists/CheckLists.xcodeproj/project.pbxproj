@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E6A16E01C32D4F500F29044 /* PickIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6A16DF1C32D4F500F29044 /* PickIconViewController.swift */; };
 		83533DC71C295C3200C5BF3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83533DC61C295C3200C5BF3F /* AppDelegate.swift */; };
 		83533DC91C295C3200C5BF3F /* CheckListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83533DC81C295C3200C5BF3F /* CheckListController.swift */; };
 		83533DCC1C295C3200C5BF3F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83533DCA1C295C3200C5BF3F /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6E6A16DF1C32D4F500F29044 /* PickIconViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickIconViewController.swift; sourceTree = "<group>"; };
 		83533DC31C295C3200C5BF3F /* CheckLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83533DC61C295C3200C5BF3F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		83533DC81C295C3200C5BF3F /* CheckListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CheckListController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -78,6 +80,7 @@
 				8387D6CA1C326780003FB385 /* CheckList.swift */,
 				8387D6CC1C3273A1003FB385 /* ListDetailControllrer.swift */,
 				8387D6CE1C328E1C003FB385 /* DataModel.swift */,
+				6E6A16DF1C32D4F500F29044 /* PickIconViewController.swift */,
 			);
 			path = CheckLists;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 				8387D6CB1C326780003FB385 /* CheckList.swift in Sources */,
 				8387D6CF1C328E1C003FB385 /* DataModel.swift in Sources */,
 				83533DC71C295C3200C5BF3F /* AppDelegate.swift in Sources */,
+				6E6A16E01C32D4F500F29044 /* PickIconViewController.swift in Sources */,
 				8387D6CD1C3273A1003FB385 /* ListDetailControllrer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,9 +10,20 @@ import Foundation
 
 class DataModel {
     var lists = [CheckList]()
+    var indexOfCheckList:Int{
+        get{
+            return NSUserDefaults.standardUserDefaults().integerForKey("CheckListIndex")
+        }
+        set{
+            NSUserDefaults.standardUserDefaults().setInteger(newValue, forKey: "CheckListIndex")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+    }
     
     init(){
+        registerDefault()
         loadCheckLists()
+        handleFirstTime()
     }
     
     func documentsDirectory()->String{
@@ -39,8 +50,28 @@ class DataModel {
                 let unarchiver = NSKeyedUnarchiver(forReadingWithData: data)
                 lists = unarchiver.decodeObjectForKey("CheckLists") as! [CheckList]
                 unarchiver.finishDecoding()
+                sortCheckLists()
             }
         }
+    }
+    
+    func registerDefault(){
+        let defaultIndex = ["CheckListIndex":-1,"FirstTime":true]
+        NSUserDefaults.standardUserDefaults().registerDefaults(defaultIndex)
+    }
+    
+    func handleFirstTime(){
+        let firstTime = NSUserDefaults.standardUserDefaults().boolForKey("FirstTime")
+        if firstTime {
+            let list = CheckList(name: "List")
+            lists.append(list)
+            indexOfCheckList = 0
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "FirstTime")
+        }
+    }
+    
+    func sortCheckLists(){
+        lists.sortInPlace({list1,list2 in list1.name.localizedStandardCompare(list2.name) == NSComparisonResult.OrderedAscending})
     }
     
 }
