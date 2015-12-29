@@ -8,47 +8,14 @@
 
 import UIKit
 
-class CheckListController: UITableViewController,AddItemProtocol {
-    var items:[CheckListItem]
+class CheckListController: UITableViewController,ItemDetailProtocol {
+    var checkList:CheckList!
     
-    required init?(coder aDecoder: NSCoder) {
-        items = [CheckListItem]()
-        
-        let row0Item = CheckListItem()
-        row0Item.text = "Walk the dog"
-        row0Item.checked = false
-        items.append(row0Item)
-        
-        let row1Item = CheckListItem()
-        row1Item.text = "Brush my teeth"
-        row1Item.checked = true
-        items.append(row1Item)
-
-        
-        let row2Item = CheckListItem()
-        row2Item.text = "Learn iOS development"
-        row2Item.checked = true
-        items.append(row2Item)
-
-        let row3Item = CheckListItem()
-        row3Item.text = "Soccer practice"
-        row3Item.checked = false
-        items.append(row3Item)
-
-        let row4Item = CheckListItem()
-        row4Item.text = "Eat ice cream"
-        row4Item.checked = true
-        items.append(row4Item)
-        
-        super.init(coder: aDecoder)
-
-    }
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         tableView.rowHeight = 44
+        title = checkList.name
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,30 +24,30 @@ class CheckListController: UITableViewController,AddItemProtocol {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "AddItem" {
+        if segue.identifier == "ItemDetail" {
             let naviController = segue.destinationViewController as! UINavigationController
-            let addController = naviController.topViewController as! AddItemViewController
+            let addController = naviController.topViewController as! ItemDetailViewController
             addController.delegate = self
         }else if segue.identifier == "EditItem" {
             let naviController = segue.destinationViewController as! UINavigationController
-            let addController = naviController.topViewController as! AddItemViewController
+            let addController = naviController.topViewController as! ItemDetailViewController
             addController.delegate = self
             
             if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
-                addController.itemToEdit = items[indexPath.row]
+                addController.itemToEdit = checkList.items[indexPath.row]
             }
         }
     }
 
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count;
+        return checkList.items.count;
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("CheckListItem")
         
-        let item:CheckListItem = items[indexPath.row]
+        let item:CheckListItem = checkList.items[indexPath.row]
 
         configLabelForCell(cell!, checkListItem: item)
         configCheckmarkForCell(cell!, checkListItem:item)
@@ -90,7 +57,7 @@ class CheckListController: UITableViewController,AddItemProtocol {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-            let item:CheckListItem = items[indexPath.row]
+            let item:CheckListItem = checkList.items[indexPath.row]
             item.toggleChecked()
             configCheckmarkForCell(cell, checkListItem:item)
         }
@@ -99,7 +66,7 @@ class CheckListController: UITableViewController,AddItemProtocol {
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete{
-            items.removeAtIndex(indexPath.row)
+            checkList.items.removeAtIndex(indexPath.row)
             let indexPaths = [indexPath]
             tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
         }
@@ -119,8 +86,8 @@ class CheckListController: UITableViewController,AddItemProtocol {
         label.text = item.text
     }
     
-    func addItemViewController(controller:AddItemViewController, didFinishEditingItem item:CheckListItem){
-        if let index = items.indexOf(item) {
+    func itemDetailViewController(controller:ItemDetailViewController, didFinishEditingItem item:CheckListItem){
+        if let index = checkList.items.indexOf(item) {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
             if let cell = tableView.cellForRowAtIndexPath(indexPath) {
                 configLabelForCell(cell, checkListItem: item)
@@ -130,20 +97,18 @@ class CheckListController: UITableViewController,AddItemProtocol {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func addItemViewController(controller: AddItemViewController, didFinishAddindItem item: CheckListItem) {
-        items.append(item)
+    func itemDetailViewController(controller: ItemDetailViewController, didFinishAddindItem item: CheckListItem) {
+        checkList.items.append(item)
         
-        let indexPath = NSIndexPath(forRow: items.count - 1, inSection: 0)
+        let indexPath = NSIndexPath(forRow: checkList.items.count - 1, inSection: 0)
         let indexPaths = [indexPath]
         tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func addItemViewControllerDidCancel(controller: AddItemViewController) {
+    func itemDetailViewControllerDidCancel(controller: ItemDetailViewController) {
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    
 
 }
 

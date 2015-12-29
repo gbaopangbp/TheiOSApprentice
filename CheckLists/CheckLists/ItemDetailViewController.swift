@@ -1,5 +1,5 @@
 //
-//  AddItemViewController.swift
+//  ItemDetailViewController.swift
 //  CheckLists
 //
 //  Created by cm on 15/12/28.
@@ -9,18 +9,18 @@
 import UIKit
 
 
-protocol AddItemProtocol:class{
-    func addItemViewControllerDidCancel(controller:AddItemViewController)
-    func addItemViewController(controller:AddItemViewController, didFinishAddindItem item:CheckListItem)
-    func addItemViewController(controller:AddItemViewController, didFinishEditingItem item:CheckListItem)
+protocol ItemDetailProtocol:class{
+    func itemDetailViewControllerDidCancel(controller:ItemDetailViewController)
+    func itemDetailViewController(controller:ItemDetailViewController, didFinishAddindItem item:CheckListItem)
+    func itemDetailViewController(controller:ItemDetailViewController, didFinishEditingItem item:CheckListItem)
 }
 
-class AddItemViewController: UITableViewController,UITextFieldDelegate {
+class ItemDetailViewController: UITableViewController,UITextFieldDelegate {
     
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
-    weak var delegate:AddItemProtocol?
+    weak var delegate:ItemDetailProtocol?
     weak var itemToEdit:CheckListItem?
 
     override func viewWillAppear(animated: Bool) {
@@ -41,19 +41,19 @@ class AddItemViewController: UITableViewController,UITextFieldDelegate {
     }
 
     @IBAction func cancel(){
-        delegate?.addItemViewControllerDidCancel(self)
+        delegate?.itemDetailViewControllerDidCancel(self)
 //        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func done(){
         if let item = itemToEdit {
             item.text = textField.text!
-            delegate?.addItemViewController(self, didFinishEditingItem: item)
+            delegate?.itemDetailViewController(self, didFinishEditingItem: item)
         }else{
             let item = CheckListItem()
             item.text = textField.text!
             item.checked = false
-            delegate?.addItemViewController(self, didFinishAddindItem: item)
+            delegate?.itemDetailViewController(self, didFinishAddindItem: item)
         }
         
         
