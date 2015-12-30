@@ -1,14 +1,14 @@
 //
-//  ViewController.swift
+//  SecondViewController.swift
 //  MyLocations
 //
-//  Created by cm on 15/12/30.
-//  Copyright © 2015年 cm. All rights reserved.
+//  Created by yaoyingtao on 15/12/30.
+//  Copyright © 2015年 yaoyingtao. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class SecondViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
