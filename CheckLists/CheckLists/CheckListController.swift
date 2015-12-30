@@ -74,6 +74,7 @@ class CheckListController: UITableViewController,ItemDetailProtocol {
     
     func configCheckmarkForCell(cell:UITableViewCell, checkListItem item:CheckListItem)->Void{
         let checkLabel = cell.viewWithTag(1001) as! UILabel
+        checkLabel.tintColor = view.tintColor
         if item.checked{
             checkLabel.text = "√"
         }else{
@@ -84,6 +85,7 @@ class CheckListController: UITableViewController,ItemDetailProtocol {
     func configLabelForCell(cell:UITableViewCell, checkListItem item:CheckListItem)->Void{
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = item.text
+        label.textColor = view.tintColor
     }
     
     func itemDetailViewController(controller:ItemDetailViewController, didFinishEditingItem item:CheckListItem){

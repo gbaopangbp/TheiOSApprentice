@@ -56,7 +56,7 @@ class DataModel {
     }
     
     func registerDefault(){
-        let defaultIndex = ["CheckListIndex":-1,"FirstTime":true]
+        let defaultIndex = ["CheckListIndex":-1,"FirstTime":true,"NextItemIndex":0]
         NSUserDefaults.standardUserDefaults().registerDefaults(defaultIndex)
     }
     
@@ -72,6 +72,14 @@ class DataModel {
     
     func sortCheckLists(){
         lists.sortInPlace({list1,list2 in list1.name.localizedStandardCompare(list2.name) == NSComparisonResult.OrderedAscending})
+    }
+    
+    class func nextItemIndex()->Int{
+        var index = NSUserDefaults.standardUserDefaults().integerForKey("NextItemIndex")
+        index += 1
+        NSUserDefaults.standardUserDefaults().setInteger(index, forKey: "NextItemIndex")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        return index
     }
     
 }

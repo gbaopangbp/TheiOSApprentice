@@ -26,8 +26,17 @@ class CheckList: NSObject,NSCoding {
         aCoder.encodeObject(items, forKey: "Items")
     }
     
-    init(name:String) {
+    convenience override init(){
+        self.init(name: "", iconName: "No Icon")
+    }
+    
+    convenience init(name:String) {
+        self.init(name: name, iconName: "No Icon")
+    }
+    
+    init(name:String, iconName:String) {
         self.name = name
+        self.iconName = iconName
         super.init()
     }
     
