@@ -226,9 +226,18 @@ class CurrentLocationViewController: UIViewController,CLLocationManagerDelegate 
             }
 
         }
-        
-
-
     }
+    
+    // MARK: - prepareForSegue
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "TagLocation" {
+            let naviController = segue.destinationViewController as! UINavigationController
+            let tagController = naviController.topViewController as! LocationDetailsViewController
+            tagController.placemark = placemark
+            tagController.coordinate = location!.coordinate
+        }
+    }
+
+    
 }
 
