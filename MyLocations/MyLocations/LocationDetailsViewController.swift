@@ -24,6 +24,7 @@ class LocationDetailsViewController: UITableViewController {
     var descriptionText = ""
     var categoryName = "No Category"
     var managedObjectContex:NSManagedObjectContext!
+    var date = NSDate()
 
     
     private let dateFormater:NSDateFormatter = {
@@ -50,7 +51,7 @@ class LocationDetailsViewController: UITableViewController {
             addressLabel.text = "No Address No Address No Address No Address No Address No Address"
         }
         
-        datexLabel.text = strigFromDate(NSDate())
+        datexLabel.text = strigFromDate(date)
         
         let tap = UITapGestureRecognizer(target: self, action: Selector("hideKeyboard:"))
         tap.cancelsTouchesInView = false
