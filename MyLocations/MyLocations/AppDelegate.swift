@@ -7,11 +7,25 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    lazy var managedObjectContext: NSManagedObjectContext = {
+        if let modelURL = NSBundle.mainBundle().URLForResource("DataModel", withExtension: "momd") {
+            if let model = NSManagedObjectModel(contentsOfURL: modelURL) {
+                let coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+                
+                    var managedObjectContext = NSManagedObjectContext()
+                        managedObjectContext.persistentStoreCoordinator = coordinator
+                    return managedObjectContext
+            }
+        }
+        abort()
+    }()
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
