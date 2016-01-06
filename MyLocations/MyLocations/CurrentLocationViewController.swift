@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import CoreData
 
 class CurrentLocationViewController: UIViewController,CLLocationManagerDelegate {
     
@@ -29,6 +30,7 @@ class CurrentLocationViewController: UIViewController,CLLocationManagerDelegate 
     var placemark:CLPlacemark?
     
     var timer:NSTimer?
+    var managedObjectContex:NSManagedObjectContext!
     
     
     override func viewDidLoad() {
@@ -235,6 +237,7 @@ class CurrentLocationViewController: UIViewController,CLLocationManagerDelegate 
             let tagController = naviController.topViewController as! LocationDetailsViewController
             tagController.placemark = placemark
             tagController.coordinate = location!.coordinate
+            tagController.managedObjectContex = managedObjectContex
         }
     }
 
