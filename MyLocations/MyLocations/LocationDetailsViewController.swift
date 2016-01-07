@@ -103,6 +103,8 @@ class LocationDetailsViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
             descriptionTextView.becomeFirstResponder()
+        } else if indexPath.row == 0 && indexPath.section == 1 {
+            takePhotoWithCamera()
         }
     }
     
@@ -148,6 +150,14 @@ class LocationDetailsViewController: UITableViewController {
         }
 
     }
+    
+    func takePhotoWithCamera() {
+        let picController = UIImagePickerController()
+        picController.delegate = self
+        picController.sourceType = .Camera
+        picController.allowsEditing = true
+        presentViewController(picController, animated: true, completion: nil)
+    }
 
 }
 
@@ -155,5 +165,14 @@ extension LocationDetailsViewController:UITextViewDelegate {
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         descriptionText = (descriptionTextView.text as NSString).stringByReplacingCharactersInRange(range, withString: text)
     return true
+    }
+}
+
+extension LocationDetailsViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]){
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }

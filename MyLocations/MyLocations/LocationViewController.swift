@@ -33,12 +33,8 @@ class LocationViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCellWithIdentifier("LocationCell")
-            let name = cell?.viewWithTag(100) as! UILabel
-            let location = locations[indexPath.row] as Location
-            name.text = location.locationDescription
-            let address = cell?.viewWithTag(101) as! UILabel
-            address.text = "you ok"
-            return cell!
+            let cell = tableView.dequeueReusableCellWithIdentifier("LocationCell") as! LocationCell
+            cell.configureForLocation(locations[indexPath.row])
+            return cell
     }
 }
