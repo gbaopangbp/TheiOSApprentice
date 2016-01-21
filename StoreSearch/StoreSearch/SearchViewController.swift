@@ -12,10 +12,12 @@ class SearchViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     
     var searchResults = [SearchResult]()
     var hasSearched = false
     var isLoading = false
+    var dataTask:NSURLSessionDataTask?
     
     struct TableViewCellIdentifiders {
         static let searchResultCell = "SearchResultCell"
@@ -27,7 +29,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
         tableView.rowHeight = 80
         var cellNib = UINib(nibName: "SearchResultCell", bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: TableViewCellIdentifiders.searchResultCell)
@@ -58,6 +60,8 @@ extension SearchViewController:UITableViewDelegate{
             return indexPath
         }
     }
+
+    
 }
 
 extension SearchViewController:UITableViewDataSource{
@@ -102,9 +106,18 @@ extension SearchViewController:UISearchBarDelegate{
         return nil
     }
     
-    func urlWithSearchText(searcheText: String) -> NSURL {
+    func urlWithSearchText(searcheText: String, category:Int) -> NSURL {
+        var entityName:String
+        switch category{
+        case 1:entityName = "nusicTrack"
+        case 2: entityName = "software"
+        case 3: entityName = "ebook"
+        default: entityName = ""
+        }
+        
         let escapedSearchText = searcheText.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-        let urlString = String(format: "http://itunes.apple.com/search?term=%@", escapedSearchText!)
+        let urlString = String(format: "http://itunes.apple.com/search?term=%@@limit=200@entity=%@", escapedSearchText!,entityName)
+        
         return NSURL(string: urlString)!
     }
     
@@ -235,8 +248,31 @@ extension SearchViewController:UISearchBarDelegate{
         presentViewController(alert, animated: true, completion: nil)
     }
     
+    func parseJSON(data:NSData) -> [String:AnyObject]?{
+        do{
+            if let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? [String:AnyObject]{
+            return json
+            }
+            }catch{
+                
+            }
+        return nil
+    }
+    
     func searchBarSearchButtonClicked(searchBar: UISearchBar){
-        
+        performSearch()
+    }
+    
+    
+    func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
+        return .TopAttached
+    }
+    
+    @IBAction func segmentChange(sender: AnyObject) {
+        performSearch()
+    }
+    
+    func performSearch(){
         if searchBar.text != "" {
             hasSearched = true
             searchBar.resignFirstResponder()
@@ -244,9 +280,42 @@ extension SearchViewController:UISearchBarDelegate{
             isLoading = true
             tableView.reloadData()
             
+            dataTask?.cancel()
+            let url = self.urlWithSearchText(searchBar.text!,category: segmentControl.selectedSegmentIndex)
+            let session = NSURLSession.sharedSession()
+            dataTask = session.dataTaskWithURL(url, completionHandler: {
+                data, reponse, error in
+                
+                if let _ = error {
+                    if error?.code == 900 {
+                        return;
+                    }
+                    print("error")
+                    self.isLoading = false
+                    self.hasSearched = false
+                    self.showNetError()
+                    self.tableView.reloadData()
+                } else if let httpResponse = reponse as? NSHTTPURLResponse{
+                    
+                    
+                } else {
+                    let dic = self.parseJSON(data!)
+                    self.searchResults =  self.parseDirctionary(dic!)
+                    self.searchResults.sortInPlace({result1, result2 in
+                        return result1.name.localizedStandardCompare(result2.name) == NSComparisonResult.OrderedAscending
+                    })
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.isLoading = false
+                        self.tableView.reloadData()
+                    }
+                }
+                
+            })
+            dataTask?.resume()
+            
             let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
             dispatch_async(queue){
-                let url = self.urlWithSearchText(searchBar.text!)
+                let url = self.urlWithSearchText(self.searchBar.text!, category: self.segmentControl.selectedSegmentIndex)
                 if let resut = self.performStoreRequestWithURL(url) {
                     if let dic = self.parseJson(resut) {
                         print("\(dic)")
@@ -267,13 +336,9 @@ extension SearchViewController:UISearchBarDelegate{
                 }
             }
             
-
+            
         }
     }
     
-    
-    func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-        return .TopAttached
-    }
 }
 
