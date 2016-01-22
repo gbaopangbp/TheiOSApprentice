@@ -85,8 +85,7 @@ extension SearchViewController:UITableViewDataSource{
             return tableView.dequeueReusableCellWithIdentifier(TableViewCellIdentifiders.nothingFoundCell)!
         } else {
             let result = searchResults[indexPath.row]
-            cell.nameLabel.text = result.name
-            cell.artistNameLabel.text = result.artistName
+            cell.configureForSearchResult(result)
         }
     
         
@@ -109,14 +108,14 @@ extension SearchViewController:UISearchBarDelegate{
     func urlWithSearchText(searcheText: String, category:Int) -> NSURL {
         var entityName:String
         switch category{
-        case 1:entityName = "nusicTrack"
+        case 1:entityName = "musicTrack"
         case 2: entityName = "software"
         case 3: entityName = "ebook"
         default: entityName = ""
         }
         
         let escapedSearchText = searcheText.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-        let urlString = String(format: "http://itunes.apple.com/search?term=%@@limit=200@entity=%@", escapedSearchText!,entityName)
+        let urlString = String(format: "http://itunes.apple.com/search?term=%@&limit=200&entity=%@", escapedSearchText!,entityName)
         
         return NSURL(string: urlString)!
     }
